@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./front_despacho
+    container_name: front-despacho
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-despachos
+      - api-ventas
+    restart: unless-stopped
+
+  api-despachos:
+    build: ./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
+    container_name: back-despachos
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_ENDPOINT=${DB_ENDPOINT}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    restart: unless-stopped
+
+  api-ventas:
+    build: ./back-Ventas_SpringBoot/Springboot-API-REST
+    container_name: back-ventas
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_ENDPOINT=${DB_ENDPOINT}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    restart: unless-stopped
